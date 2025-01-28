@@ -1,6 +1,7 @@
 const stationFrom = document.querySelector(".from");
 const stationTo = document.querySelector(".to");
-const ignoreExtraStops = document.querySelector("#sortByTime");
+const allDay = document.querySelector("#allDay");
+const sortByTime = document.querySelector("#sortByTime");
 const results = document.querySelector(".results");
 
 const stations = [
@@ -146,7 +147,11 @@ function makeTimes(paths) {
     let end = routes[path.route][path.end];
     
     for (let i = 0; i < start.t.length; i++) {
-      if (start.t[i] < currentTime || start.t[i] == 0 || end.t[i] == 0) {
+      if (!allDay.checked && start.t[i] < currentTime) {
+        continue;
+      }
+      
+      if (start.t[i] == 0 || end.t[i] == 0) {
         continue;
       }
       
@@ -154,7 +159,7 @@ function makeTimes(paths) {
     }
   }
   
-  if (ignoreExtraStops.checked) {
+  if (sortByTime.checked) {
     times.sort((a, b) => a.timeStart - b.timeStart);
   } else {
     times.sort((a, b) => (a.timeStart + a.extraStops*10000) - (b.timeStart + b.extraStops*10000));
@@ -183,9 +188,54 @@ function updateResults() {
   let times = makeTimes(paths);
   
   for (let arrival of times) {
-    let p = document.createElement("p");
-    p.innerText = `Skibus ${arrival.route+1}: ${toRealTime(arrival.timeStart)} -> (${arrival.extraStops}) -> ${toRealTime(arrival.timeEnd)}`;
-    results.appendChild(p);
+    let tr = document.createElement("tr");
+    
+    let route = document.createElement("td");
+    route.innerText = arrival.route + 1;
+    route.classList.add("round");
+    route.classList.add(`route-${arrival.route}`);
+    tr.appendChild(route);
+    
+    let timeStart = document.createElement("td");
+    timeStart.innerText = toRealTime(arrival.timeStart);
+    tr.appendChild(timeStart);
+    
+    if (arrival.extraStops > 0) {
+      let arrow1 = document.createElement("td");
+      let arrowImg1 = new Image();
+      arrowImg1.src = "right.svg";
+      arrow1.appendChild(arrowImg1);
+      tr.appendChild(arrow1);
+      
+      let extraStops = document.createElement("td");
+      extraStops.innerText = arrival.extraStops;
+      extraStops.classList.add("round");
+      tr.appendChild(extraStops);
+      
+      let arrow2 = document.createElement("td");
+      let arrowImg2 = new Image();
+      arrowImg2.src = "right.svg";
+      arrow2.appendChild(arrowImg2);
+      tr.appendChild(arrow2);
+    } else {
+      let gap1 = document.createElement("td");
+      tr.appendChild(gap1);
+      
+      let arrow = document.createElement("td");
+      let arrowImg = new Image();
+      arrowImg.src = "right.svg";
+      arrow.appendChild(arrowImg);
+      tr.appendChild(arrow);
+      
+      let gap2 = document.createElement("td");
+      tr.appendChild(gap2);
+    }
+    
+    let timeEnd = document.createElement("td");
+    timeEnd.innerText = toRealTime(arrival.timeEnd);
+    tr.appendChild(timeEnd);
+    
+    results.appendChild(tr);
   }
 }
 
@@ -193,4 +243,5 @@ initSelect();
 
 stationFrom.addEventListener("change", updateResults);
 stationTo.addEventListener("change", updateResults);
-ignoreExtraStops.addEventListener("change", updateResults);
+allDay.addEventListener("change", updateResults);
+sortByTime.addEventListener("change", updateResults);

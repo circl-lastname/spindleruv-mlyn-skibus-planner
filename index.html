@@ -8,13 +8,17 @@
     <title>Špindlerův Mlýn Skibus Planner</title>
   </head>
   <body>
-    <p>
-      <select class="from"></select> -> <select class="to"></select>
-    </p>
-    <p>
-      <input type="checkbox" id="sortByTime"><label for="sortByTime">Sort by time</label>
-    </p>
-    <hr>
-    <div class="results"></div>
+    <header>
+      <select class="from"></select>
+      <img class="arrow" src="down.svg">
+      <select class="to"></select>
+      <div class="checkboxes">
+        <input id="allDay" type="checkbox"><label for="allDay">All day</label>
+        <input id="sortByTime" type="checkbox"><label for="sortByTime">Sort by time</label>
+      </div>
+    </header>
+    <table>
+      <tbody class="results"></tbody>
+    </table>
   </body>
 </html>

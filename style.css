@@ -1,3 +1,64 @@
 body {
+  margin: 0px;
   font-family: sans-serif;
+}
+
+header {
+  position: sticky;
+  top: 0px;
+  padding: 8px;
+  background-color: #0080ff;
+  color: #ffffff;
+}
+
+select {
+  width: 100%;
+}
+
+.arrow {
+  display: block;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.checkboxes {
+  margin-top: 8px;
+}
+
+table {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+table img {
+  display: block;
+}
+
+.round {
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.route-0 {
+  background-color: #008000;
+}
+
+.route-1 {
+  background-color: #0000ff;
+}
+
+.route-2 {
+  background-color: #ff0000;
+}
+
+.route-3 {
+  background-color: #ffa000;
 }
